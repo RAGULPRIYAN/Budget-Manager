@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "9842548374",
+    "project_id": "ionic-bb82e",
+    "storage_bucket": "ionic-bb82e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:9842548374:android:6c4b767a4a928b699c2cb7",
+        "android_client_info": {
+          "package_name": "com.example.myionicapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "9842548374-slkbvrjvt4s0sghnlqdjpm09k9bkbeqi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAajvsDVO7uzDGYG1NNo0e8xK9b7eT_q2Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "9842548374-nbmq20t5hkvsl0sohpv6ruvlfllduhpc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
