@@ -1,0 +1,84 @@
+.ion-background{
+    .img-wrapper{
+      display: flex;
+      justify-content: center;
+      img{
+          width: auto;
+          height: 300px;
+         
+      }
+    }
+      .login-form{
+          display: flex;
+          margin: 10px;
+          // align-items: center;
+          flex-direction: column;
+          justify-content: center;
+          .error-indicator {
+            text-align: start;
+          margin-right: 10px;
+            .error-type {
+              color: red;
+              font-size: 14px;
+              margin: 15px;
+            }
+          }
+         
+        .login-div{
+          display: flex;
+          justify-content: center;
+          .login-btn{
+            text-align: center;
+            margin: 10px;
+            color: white;
+            background: #009688;
+            border-radius: 10px;
+            padding: 10px;
+            width: 50%;
+              // padding: 15px 20px 15px 20px;
+  
+  
+          }
+        }
+          
+          .forgot-label{
+              margin-top: 10px;
+              color: #009688;
+              display: flex;
+              justify-content: end;
+          }
+      
+  
+      .third-party {
+          display: flex;
+          align-items: center;
+          margin: 15px 0px;
+    
+          p {
+            font-size: 14px;
+            font-weight: 600;
+            color: #525a66;
+          }
+    
+          hr {
+            width: 162px;
+            background-color: #e6f0f8;
+            height: 1px;
+    
+            &:nth-child(1) {
+              margin: 0px 8px 0px 0px;
+            }
+    
+            &:nth-child(2) {
+              margin: 0px 0px 0px 8px;
+            }
+          }
+        }
+          .account-label{
+              margin-top: 15px;
+              color: black;
+              display: flex;
+              justify-content: center;
+          }
+      }
+  }

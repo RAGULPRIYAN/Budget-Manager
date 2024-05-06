@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FcmService } from './services/fcm.service';
+
 
 @Component({
   selector: 'app-root',
@@ -7,7 +7,7 @@ import { FcmService } from './services/fcm.service';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor(public push:FcmService) {
-    this.push.initPush()
+  constructor() {
+   
   }
 }

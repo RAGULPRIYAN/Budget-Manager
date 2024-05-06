@@ -1,36 +1,38 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {Capacitor} from '@capacitor/core';
-import { PushNotifications } from '@capacitor/push-notifications';
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class FcmService {
 
-  constructor() { }
-  initPush() {
-    if (Capacitor.getPlatform() !== 'web') {
-        this.registerPush();
+    constructor(private http: HttpClient) { }
+
+    addRemainder(data:any){
+      return this.http.post(`${environment.url}/remainder/addRemainder`,data);
     }
-}
+    getRemainderId(id:any){
+      return this.http.get(`${environment.url}/remainder/getRemainderId/${id}`);
+    }
+    
+    updateRemainder(id:number,data:any){
+      return this.http.put(`${environment.url}/remainder/updateRemainder/${id}`,data);
+    }
+    
+    deleteRemainder(id:any){
+      return this.http.delete(`${environment.url}/remainder/deleteRemainder/${id}`)
+    }
+    
+    getRemainder(){
+      return this.http.get(`${environment.url}/remainder/getRemainder`);
+    }
 
-private registerPush() {
-  PushNotifications.requestPermissions().then(permission => {
-      if (permission.receive === 'granted') {
-          PushNotifications.register();
+    getFilter(){
+        return this.http.get(`${environment.url}/remainder/getFilter`);
       }
-      else {
-          // If permission is not granted
-      }
-  });
-  PushNotifications.addListener('registration', (token) => {
-      console.log(token);
-  });
-  PushNotifications.addListener('registrationError', (err)=> {
-      console.log(err);
-  }); PushNotifications.addListener('pushNotificationReceived',(notifications) => {
-      console.log(notifications);
-  });
 
-}
+      getRemainderWiseBudgetId(id:any){
+        return this.http.get(`${environment.url}/remainder/getRemainderWiseBudgetId/${id}`);
+      }
 
 }

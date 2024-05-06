@@ -1,0 +1,109 @@
+.tab-header{
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+.name-div{
+font-size: 20px;
+font-weight: 600;
+}
+.log-div{
+ font-size: 20px;
+ font-weight: 600;
+}
+}
+.body-div{
+    .filters{
+        display: flex;
+        justify-content: center;
+       gap: 5px;
+    .clear-div{
+        display: flex;
+        align-items: center;
+        color: blue;
+        cursor: pointer;
+        ion-icon{
+            font-size: 30px;
+            color: #009688;
+        }
+    }
+    }
+    .card-div{
+        margin: 10px;
+        .fix-amount{
+            margin: 10px;
+            color: #009688;
+            text-align: center;
+            h1 {
+                font-size: large;
+                font-weight: 600;
+            }
+        }
+        .card-header{
+            margin: 10px;
+            // color: #cac229;
+            text-align: center;
+            h2{
+                font-size: large;
+                font-weight: 600;
+            }
+            h4{
+                font-size: medium;
+                font-weight: 600;
+            }
+        }
+        .footer-div{
+            display: flex;
+            justify-content: space-around;
+            
+            .date-format{
+                display: flex;
+                align-items: center;
+                justify-content: end;
+                span{
+                    // background-color: #29a3ca;
+                    padding: 10px;
+                    border-radius: 10px;
+                    color: gainsboro;
+                }
+                
+            }
+        
+        }
+       
+    }
+    
+    // .footer-divs{
+    //     display: flex;
+    //     background-color: #cac229;
+    //     justify-content: center;
+    //     flex-direction: row;
+    //     .records{
+    //         display: flex;
+    //         flex-direction: column;
+    //     }
+    //     .analysis{
+    //         display: flex;
+    //         flex-direction: column;
+    //     }
+    //     .budgets{
+    //         display: flex;
+    //         flex-direction: column;
+    //     }
+    //     .goals{
+    //         display: flex;
+    //         flex-direction: column;
+    //     }
+    //     .remainder{
+    //         display: flex;
+    //         flex-direction: column;
+    //     }
+       
+    // }
+    /* In your component's SCSS file, e.g., footer.component.scss */
+
+
+  
+    
+
+}
+

@@ -1,0 +1,149 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Goals</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
+    <ion-fab-button id="open-modal">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <div class="body-div">
+   
+
+  <div class="card-div">
+    <ion-card button *ngFor="let todo of goalData">
+      <div class="fix-amount" >
+        <div>
+          <h1>{{todo.goalName}}</h1>
+        </div>
+      </div>
+      <div class="card-header">
+        <h4>Target Date: {{ formatTargetDate(todo.targetDate) }}</h4>
+        <!-- <h2>Expense Amount :  ₹{{todo.expenseAmount}}</h2> -->
+      </div>
+      <div class="progress-bar">
+        <ion-progress-bar [value]="calculateProgress(todo.savedAmount, todo.goalAmount) / 100"></ion-progress-bar>      </div>
+      <div class="money-text">
+        <div class="saved-Amount">
+          <h4>Saved: {{ todo.savedAmount }}</h4>
+        </div>
+        <div class="goal-Amount">
+          <h4>Goal: {{ todo.goalAmount }}</h4>
+        </div>
+      </div>
+     
+
+  <!-- <div class="footer-div">
+   <div class="btn-div">
+    <ion-button fill="clear" (click)="goToEdit(todo.id)">Edit</ion-button>
+    <ion-button fill="clear" (click)="deleteGoal(todo.id)">Delete</ion-button>
+   </div>
+  
+  </div> -->
+    </ion-card>
+  </div>
+  </div>
+ 
+
+
+ 
+
+</ion-content>
+<ion-footer >
+  <ion-toolbar>
+    <div class="footer-divs">
+      <div class="records" >
+        <div class="records-div" routerLink="/records">
+          <ion-icon name="list"></ion-icon>
+          <span>Records</span>
+        </div>
+      </div>
+      <div class="analysis">
+        <div class="analysis-div" routerLink="/analysis">
+          <ion-icon name="analytics"></ion-icon>
+        <span>Analytics</span>
+        </div>
+      </div>
+      <div class="budgets">
+        <div class="budgets-div" routerLink="/budgets">
+          <ion-icon name="cash"></ion-icon>
+          <span>Budgets</span>
+        </div>
+      </div>
+      <div class="goals" class="active-footer">
+        <div class="goals-div" routerLink="/goals">
+          <ion-icon name="trophy"></ion-icon>
+        <span>Goals</span>
+        </div>
+      </div>
+      <div class="remainder">
+        <div class="remainder-div" routerLink="/remainder">
+          <ion-icon name="notifications"></ion-icon>
+          <span>Remainder</span>
+        </div>
+      </div>
+
+
+     
+
+    </div>
+  </ion-toolbar>
+</ion-footer>
+
+  <ion-modal  trigger="open-modal" #modal>
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="modal.dismiss()">cancel</ion-button>
+          </ion-buttons>
+          <!-- <ion-title>Welcome</ion-title> -->
+          <ion-buttons slot="end">
+            <ion-button (click)="saveGoal()" >save</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-input
+            label="Goal Name"
+            labelPlacement="stacked"
+            type="text"
+            placeholder=""
+            [(ngModel)]="goalName"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Goal Amount"
+            labelPlacement="stacked"
+            type="text"
+            placeholder=""
+            [(ngModel)]="goalAmount"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input
+            label="Saved Amount"
+            labelPlacement="stacked"
+            type="text"
+            placeholder=""
+            [(ngModel)]="savedAmount"
+          ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Target Date</ion-label>
+          <ion-datetime
+            placeholder="Select Date"
+            [(ngModel)]="targetDate"
+            presentation="date"
+          ></ion-datetime>
+        </ion-item>
+      </ion-content>
+      
+    </ng-template>
+  </ion-modal>
+

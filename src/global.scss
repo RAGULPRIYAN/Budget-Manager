@@ -35,3 +35,86 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+ion-header{
+    ion-toolbar {
+        --background: #009688;
+        --color: white;
+      
+      
+        // --border-width: 4px 0;
+        // --border-style: double;
+      
+        --min-height: 60px;
+        --padding-top: 20px;
+        --padding-bottom: 20px;
+      }
+    
+}
+
+ion-footer {
+    ion-toolbar {
+      .footer-divs {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background-color: #009688; /* Example background color */
+        padding: 10px 0; /* Adjust padding as needed */
+      }
+  
+      .records-div,
+      .analysis-div,
+      .budgets-div,
+      .goals-div,
+      .remainder-div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+  
+      ion-icon {
+        font-size: 24px; /* Example icon size */
+        color: rgb(255, 255, 255); /* Example icon color */
+      }
+  
+      span {
+        font-size: 14px; /* Example text size */
+        color: white; /* Example text color */
+      }
+      .active-footer {
+        // background-color: #fff; /* Example active background color */
+        color: #0c4e45; /* Example active text color */
+      }
+
+      .active-footer ion-icon {
+        color: #0c4e45; /* Example active icon color */
+      }
+
+      .active-footer span {
+        color: #0c4e45; /* Example active text color */
+      }
+      
+    }
+  }
+
+  .ion-valid.sc-ion-input-md-h {
+    --highlight-color: #009688 !important;
+}
+
+ion-fab-button {
+    --background: #009688;
+    --background-activated: #009688;
+    --background-hover: #009688;
+    // --border-radius: 15px;
+    --box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+    --color: white;
+  }
+
+  ion-progress-bar{
+    .progress-buffer-bar {
+        background: #FF5722 !important;
+        z-index: 1;
+    }
+  }
+ 
+  
+ 

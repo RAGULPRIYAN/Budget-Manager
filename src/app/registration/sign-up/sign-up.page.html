@@ -1,0 +1,126 @@
+<ion-content [fullscreen]="true" class="ion-background">
+  <div class="img-wrapper">
+    <img src="../../../assets/buget.jpeg" alt="logo" srcset="">
+  </div>
+  <form action="" [formGroup]="signUpForm" >
+    <ion-list class="login-form">
+      <div class="name-data">
+        <ion-item>
+          <ion-input formControlName="name" label="Name" labelPlacement="floating" placeholder="Enter text"></ion-input>
+         
+        </ion-item>
+        <div class="error-indicator" *ngIf=" (form['name'].dirty || form['name'].touched) &&form['name'].invalid">
+          <span class="error-type" *ngIf="form['name'].errors?.['required']">Name is Required</span>
+          <span class="error-type" *ngIf="form['name'].errors?.['pattern']">Invalid fristname address format</span>
+      </div>
+      </div>
+      <div class="email-data">
+        <ion-item>
+          <ion-input formControlName="email" label="Email" labelPlacement="floating" placeholder="Enter text"></ion-input>
+         
+        </ion-item>
+        <div class="error-indicator"
+        *ngIf="(form['email'].dirty || form['email'].touched) &&form['email'].invalid">
+        <span class="error-type" *ngIf="form['email'].errors?.['required']">Email is
+            required</span>
+        <span class="error-type" *ngIf="form['email'].errors?.['pattern']">Invalid email address
+            format</span>
+    </div>
+      </div>
+      <div class="password-data">
+        <ion-item>
+          <ion-input formControlName="password" label="Password" type="Password" labelPlacement="floating" placeholder="Enter text"></ion-input>
+        </ion-item>
+        <div class="error-indicator"
+               *ngIf="(form['password'].dirty || form['password'].touched) && form['password'].invalid">
+                  <span class="error-type" *ngIf="form['password'].errors?.['required']">Password is
+                                      required</span>
+                  <span class="error-type" *ngIf="form['password'].errors?.['pattern']">Password must be
+                                      at least 5 characters long</span>
+                         </div>
+      </div>
+      
+
+     
+
+  
+    <div class="login-div" (click)="login()">
+      <button class="login-btn" >Sign Up</button>
+    </div>
+    
+<!--    
+    <div class="forgot-label">
+      <ion-label >
+        <h6>Forgot Password?</h6>
+      
+      </ion-label>
+    </div> -->
+    <div class="account-label">
+      <ion-label routerLink="/login" >
+        <h6>Already have an account?<span><a href="">Login</a></span></h6>
+      </ion-label>
+    
+    </div>
+    
+    
+    <!-- <div class="third-party">
+      <hr />
+      <p>Or </p>
+      <hr />
+    </div>
+   
+    <div class="account-label">
+      <ion-buttons slot="start" fill="solid" class="bg-white">
+        <ion-button >
+          <img src="../../assets/google.svg" alt="" srcset="">
+        </ion-button>
+        
+      </ion-buttons>
+    </div>
+   -->
+     
+    </ion-list>
+ </form>
+  <!-- <ion-list class="login-form">
+    <ion-item>
+      <ion-input [(ngModel)]="email" label="UserName" labelPlacement="floating" placeholder="Enter text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input [(ngModel)]="password" label="Password" type="Password" labelPlacement="floating" placeholder="Enter text"></ion-input>
+    </ion-item>
+
+  <div class="login-div" (click)="login()">
+    <button class="login-btn" >Login</button>
+  </div>
+  
+ 
+  <div class="forgot-label">
+    <ion-label >
+      <h6>Forgot Password?</h6>
+    
+    </ion-label>
+  </div>
+  <div class="account-label">
+    <ion-label routerLink="/signup" >
+      <h6>Don't have an account?</h6>
+    </ion-label>
+  </div>
+  
+  <div class="third-party">
+    <hr />
+    <p>Or </p>
+    <hr />
+  </div>
+ 
+  <div class="account-label">
+    <ion-buttons slot="start" fill="solid" class="bg-white">
+      <ion-button >
+        <img src="../../assets/google.svg" alt="" srcset="">
+      </ion-button>
+      
+    </ion-buttons>
+  </div>
+
+   
+  </ion-list> -->
+</ion-content>

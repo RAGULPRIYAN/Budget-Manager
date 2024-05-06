@@ -1,0 +1,106 @@
+.body-div {
+    .card-div {
+        margin: 10px;
+
+        .remainder-div {
+            display: flex;
+            padding: 15px;
+            justify-content: space-between;
+            margin: 5px;
+
+            // margin: 10px;
+            .remainder-sub-div {
+                .amount-div {
+                    font-size: medium;
+                    font-weight: 600;
+                }
+
+                .expense-div {
+                    font-size: medium;
+                    font-weight: 500;
+                }
+            }
+
+            .date-div {
+                .pay-date {
+                    font-size: medium;
+                    font-weight: 600;
+                }
+            }
+        }
+        .status{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 5px;
+
+            .remainder-data{
+                color: #009688;
+                border-radius: 1px;
+                margin: 10px;
+                display: flex;
+                gap: 10px;
+                .btn-div{
+                    display: flex;
+
+                    
+                }
+            }
+            .edit-drop{
+                .btn-sty{
+                    color: #0054e9;
+                }
+                
+            }
+          
+        }
+
+        .set-remain {
+            display: flex;
+            justify-content: center;
+            margin: 5px;
+            .remain-btn {
+                background-color: #009688 !important;
+                color: white;
+                padding: 5px;
+                border-radius: 10px;
+                //  margin-top: 10px;
+                display: flex;
+                gap: 10px;
+                align-items: center;
+
+                .submit-btn {
+                    .btn-sty {
+                        background-color: #009688 !important;
+                        color: white;
+
+                    }
+
+                }
+
+            }
+        }
+
+        .footer-div {
+            display: flex;
+            justify-content: space-around;
+
+            .date-format {
+                display: flex;
+                align-items: center;
+                justify-content: end;
+
+                span {
+                    // background-color: #29a3ca;
+                    padding: 10px;
+                    border-radius: 10px;
+                    color: gainsboro;
+                }
+
+            }
+
+        }
+
+    }
+}
+

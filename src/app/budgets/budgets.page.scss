@@ -1,0 +1,105 @@
+.body-div{
+.card-header{
+    text-align: center;
+    color: #009688;
+    font-size: 20px;
+    font-weight: 500;
+    h2{
+      font-size: 20px;
+      font-weight: 600;
+    }
+}
+.list-div{
+    display: flex;
+    justify-content: space-around;
+    .amount-header{
+font-size: 17px;
+// color: #cac229;
+    }
+    .amount-number{
+        font-size: 17px;
+        color: green;
+    }
+   ion-icon{
+        color: #009688;
+    }
+ 
+
+}
+.btn-div{
+    // margin-top: 10px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    background-color: white;
+    // border: 1px solid #aaaaaa;
+    .submit-btn{
+                      background-color: #009688 !important;
+                      color: white;
+                      padding: 10px;
+                      border-radius:10px;
+                       margin-top: 10px;
+          
+                  }
+                  .cancel-btn{
+                      background-color: gainsboro;
+                      color: black;
+                      padding: 10px;
+                      border-radius:10px;
+                       margin-top: 10px;
+                  }
+  }
+}
+
+
+ion-modal#example-modal {
+    --width: fit-content;
+    --min-width: 250px;
+    --height: fit-content;
+    --border-radius: 6px;
+    // --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+  }
+
+  ion-modal#example-modal h1 {
+    margin: 20px 20px 10px 20px;
+    color: #aaaaaa;
+    font-size: 20px;
+  }
+  
+  ion-modal#example-modal ion-icon {
+    margin-right: 6px;
+    width: 55px;
+    height: 55px;
+    padding: 4px 0;
+    color: #aaaaaa;
+  }
+    
+    ion-modal#example-modal .wrapper {
+      margin-bottom: 10px;
+      color: #aaaaaa;
+      .amount-input{
+        margin: 10px;
+      }
+      .btn-div{
+        // margin-top: 10px;
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        background-color: white;
+        // border: 1px solid #aaaaaa;
+        .submit-btn{
+                          background-color: #009688 !important;
+                          color: white;
+                          padding: 10px;
+                          border-radius:10px;
+                           margin-top: 10px;
+              
+                      }
+                      .cancel-btn{
+                          background-color: gainsboro;
+                          color: black;
+                          padding: 10px;
+                          border-radius:10px;
+                           margin-top: 10px;
+                      }}
+    }
