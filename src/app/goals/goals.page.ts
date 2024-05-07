@@ -17,6 +17,15 @@ export class GoalsPage implements OnInit {
   goalData:any
   buffer: number = 0;
   progress = 0;
+  goalDatas:any
+  goalId:any
+  modalVisible:Boolean=false
+  //update
+
+  updateGoalName:string =''
+  updateGoalAmount:string=''
+  updateSavedAmount:string=''
+  updateTargetDate:Date | undefined
 
   constructor(private datePipe: DatePipe,private goal:GoalService ,private modalController: ModalController,private route: Router) { }
 
@@ -51,23 +60,22 @@ export class GoalsPage implements OnInit {
   goToEdit(id:any){
     this.goal.getGoalId(id).subscribe((res:any)=>{
       console.log(res,'res checks id')
+      this.goalId = id
+      this.modalVisible=true
+      this.updateGoalName=res.data[0].goalName
+      this.updateGoalAmount=res.data[0].goalAmount
+      this.updateSavedAmount=res.data[0].savedAmount
+      this.updateTargetDate=res.data[0].targetDate
      
     })
   }
 
-  async openModal() {
-    const modal = await this.modalController.create({
-      component: GoalsPage, // Use the same component for modal
-      componentProps: {
-        goalData: this.goalData, // Pass data to modal component
-      },
-    });
-    return await modal.present();
-  }
- 
 
   deleteGoal(id:any){
-
+this.goal.deleteGoal(id).subscribe((res:any)=>{
+  console.log(res,'res checks')
+  this.getGoal()
+})
   }
 
  
@@ -83,7 +91,6 @@ this.goal.addGoal(payload).subscribe({
   next: (res: any) => { 
     this.getGoal()
     this.modalController.dismiss();
-    // this.route.navigate(['/goals']) 
     this.goalName = ''
     this.goalAmount=''
     this.savedAmount=''
@@ -93,6 +100,34 @@ this.goal.addGoal(payload).subscribe({
   },    
   
 });
+  }
+
+  updateGoal(){
+    let payload={
+      goalName: this.updateGoalName,
+      goalAmount: this.updateGoalAmount,
+      savedAmount: this.updateSavedAmount,
+      targetDate: this.updateTargetDate
+    }
+    console.log(payload,'payload checks')
+    this.goal.updateGoal(this.goalId,payload).subscribe({  
+      next: (res: any) => { 
+        this.getGoal()
+        this.modalController.dismiss();
+        this.updateGoalName = ''
+        this.updateGoalAmount=''
+        this.updateSavedAmount=''
+       
+      },
+      error: (err) => {
+        console.log("error", err);  
+      },    
+      
+    });
+  }
+
+  closeModal(){
+    this.modalVisible=false
   }
 
 

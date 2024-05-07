@@ -46,8 +46,7 @@ export class SignUpPage implements OnInit {
         localStorage.setItem("accessToken",res.token)
         localStorage.setItem("sessionId",res.sessionId)
         localStorage.setItem("userId",res.userid)
-        localStorage.setItem("roleId",res.roleId)
-        localStorage.setItem("roleName",res.roleName)
+       
         
             this.route.navigate(['/login']);
 

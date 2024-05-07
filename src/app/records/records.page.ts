@@ -18,9 +18,17 @@ dateId:any
 filteredData:any
 userData:any
 userId:any
+noDataVisible:boolean=false
   constructor(private activeRoute: ActivatedRoute,private apiService:RegisterService,private datePipe: DatePipe,private remainder:FcmService,private budget:BudgetService,private route: Router) { }
 
   ngOnInit() {
+   
+    this.getBudgetAmount()
+    this. getFilterData()
+   
+  }
+
+  ionViewWillEnter(){
     this.userId =localStorage.getItem("userId");
     let id = this.activeRoute.snapshot.queryParams["id"];
     console.log(id,'budgetsId')
@@ -33,10 +41,8 @@ userId:any
     }
    
     this.getCardData()
-    this.getBudgetAmount()
-    this. getFilterData()
-   
   }
+
 
   getUserDetails(id:any){
 this.apiService.getUserId(id).subscribe((res:any)=>{
@@ -83,8 +89,12 @@ this.budget.getRemainingBudgetId(selectedValue).subscribe((res:any)=>{
     const selectedValue = event.detail.value;
     console.log(selectedValue,'se')
     this.budget.getFilterDateId(selectedValue).subscribe((res:any)=>{
-      console.log(res,'res checks date wise')
+    
       this.budgetData=res.data
+      console.log( this.budgetData,' this.budgetData')
+      if(this.budgetData == ''){
+        this.noDataVisible = true
+      }
     })
   }
 

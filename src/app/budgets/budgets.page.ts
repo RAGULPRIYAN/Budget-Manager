@@ -13,10 +13,10 @@ budgetAmount :any
 expenseName:any
 budgetAmounts:string | undefined
 expenseNames:string | undefined
-budgetId:string | undefined
+setAmountId:string | undefined
 expenseId:string | undefined
 expenseAmount : string | undefined
-remainingAmount:any 
+remainingAmount=0
 submitVisible:boolean =true
 updateVisible:boolean=false
 budgetsId:any
@@ -25,15 +25,26 @@ budgetsId:any
 
   ngOnInit() {
     
+    this.getBudgetAmount()
+    this.getExpenseName()
+
+   
+  
+  }
+
+  ionViewWillEnter(){
+    this.expenseAmount = ''
+        this.setAmountId=''
+        this.expenseId=''
+    this.remainingAmount = 0
     let id = this.activeRoute.snapshot.queryParams["id"];
     console.log(id,'budgetsId')
     this.budgetsId = id
     if(id){
+      
       this.editBudgetId(this.budgetsId)
     }
-   this.getBudgetAmount()
-   this.getExpenseName()
-  
+    
   }
 
   editBudgetId(id:any){
@@ -43,8 +54,9 @@ budgetsId:any
         this.submitVisible = false
         this.updateVisible = true
         this.expenseAmount = res.data[0].expenseAmount
-        this.budgetId = res.data[0].budgetId
+        this.setAmountId = res.data[0].budgetAmountId
         this.expenseId= res.data[0].expenseNameId
+        console.log(this.setAmountId,'this.budgetId')
       },
       error: (err) => {
         console.log("error", err);  
@@ -56,16 +68,15 @@ budgetsId:any
   updateExpense(){
     let payload={
       expenseAmount:this.expenseAmount,
-      setAmountId:this.budgetId,
+      setAmountId:this.setAmountId,
       expenseNameId:this.expenseId
     }
     this.budget.updateBudget(this.budgetsId,payload).subscribe({  
       next: (res: any) => {  
         this.route.navigate(['/records'])
-        // this.expenseAmount = ''
-        // this.budgetId=''
-        // this.expenseId=''
-       
+        this.expenseAmount = ''
+        this.setAmountId=''
+        this.expenseId=''
       },
       error: (err) => {
         console.log("error", err);  
@@ -76,6 +87,11 @@ budgetsId:any
 
   cancelExpense(){
     this.route.navigate(['/records'])
+    this.submitVisible = true
+    this.updateVisible = false
+       this.expenseAmount = ''
+        this.setAmountId=''
+        this.expenseId=''
   }
 
   getBudgetAmount(){
@@ -83,6 +99,7 @@ budgetsId:any
     .subscribe({  
       next: (res: any) => {  
         this.budgetAmount = res.data
+        console.log(this.budgetAmount,'amount checks')
       },
       error: (err) => {
         console.log("error", err);  
@@ -106,14 +123,14 @@ budgetsId:any
   createBudget(){
     let payload={
       expenseAmount:this.expenseAmount,
-      setAmountId:this.budgetId,
+      setAmountId:this.setAmountId,
       expenseNameId:this.expenseId
     }
     this.budget.addBudgets(payload).subscribe({  
       next: (res: any) => { 
         this.route.navigate(['/records']) 
         this.expenseAmount = ''
-        this.budgetId=''
+        this.setAmountId=''
         this.expenseId=''
       },
       error: (err) => {
@@ -162,7 +179,7 @@ budgetsId:any
   console.log(selectedValue,'value checks')
   this.budget.getBudgetAmountId(selectedValue).subscribe((res:any)=>{
     console.log(res,'res checks')
-    const fixAmount = res.data.budget
+    const fixAmount = res.data[0].budget
     console.log(fixAmount,'amount checks')
     this.budget.getRemainingBudgetId(selectedValue).subscribe((res:any)=>{
       console.log(res,'res checsk00')

@@ -50,10 +50,26 @@
             }
                
         }
-       
-      
+    }
+    .btn-div{
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin: 10px;
+        .submit-btn {
+           
+                background-color: #009688 !important;
+                color: white;
+                padding: 10px;
+                border-radius: 5px;
+                width: 50%;
+
+            
+
+        }
 
     }
+
   
     .footer-div{
         display: flex;

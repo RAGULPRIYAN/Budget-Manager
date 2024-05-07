@@ -41,7 +41,7 @@ export class AnalysisPage implements OnInit {
 
   removeFilter(){
     this.dateId = " "
-    
+    // this.processPieChart()
   }
 
 
@@ -239,6 +239,9 @@ export class AnalysisPage implements OnInit {
          
           this.noDataVisible=true
           
+        }
+        else{
+          this.noDataVisible=false
         }
         this.chartData.push(["Others", res.data.othersTotalCount,0]);
         console.log(this.chartData, "thirdData checks");

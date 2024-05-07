@@ -14,7 +14,7 @@
         <ion-list>
           <ion-item>
             <ion-select class="always-flip" toggleIcon="caret-down-sharp" interface="popover" label="Choose Budget"
-              placeholder="" [(ngModel)]="budgetId" (ionChange)="setRemainingAmount($event)">
+              placeholder="" [(ngModel)]="setAmountId" (ionChange)="setRemainingAmount($event)">
               <ion-select-option *ngFor="let e of budgetAmount" [value]="e.id">
                 {{ e.budget }} 
               </ion-select-option>
