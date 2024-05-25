@@ -25,25 +25,45 @@ const routes: Routes = [
     path: 'sign-up',
     loadChildren: () => import('./registration/sign-up/sign-up.module').then( m => m.SignUpPageModule)
   },
-  {
-    path: 'records',
-    loadChildren: () => import('./records/records.module').then( m => m.RecordsPageModule)
-  },
+  // {
+  //   path: 'records',
+  //   loadChildren: () => import('./records/records.module').then( m => m.RecordsPageModule)
+  // },
+  // {
+  //   path: 'analysis',
+  //   loadChildren: () => import('./analysis/analysis.module').then( m => m.AnalysisPageModule)
+  // },
+  // {
+  //   path: 'budgets',
+  //   loadChildren: () => import('./budgets/budgets.module').then( m => m.BudgetsPageModule)
+  // },
+  // {
+  //   path: 'remainder',
+  //   loadChildren: () => import('./remainder/remainder.module').then( m => m.RemainderPageModule)
+  // },
+  // {
+  //   path: 'goals',
+  //   loadChildren: () => import('./goals/goals.module').then( m => m.GoalsPageModule)
+  // },
   {
     path: 'analysis',
-    loadChildren: () => import('./analysis/analysis.module').then( m => m.AnalysisPageModule)
+    loadChildren: () => import('./analysis-fire/analysis-fire.module').then( m => m.AnalysisFirePageModule)
   },
   {
     path: 'budgets',
-    loadChildren: () => import('./budgets/budgets.module').then( m => m.BudgetsPageModule)
-  },
-  {
-    path: 'remainder',
-    loadChildren: () => import('./remainder/remainder.module').then( m => m.RemainderPageModule)
+    loadChildren: () => import('./budgets-fire/budgets-fire.module').then( m => m.BudgetsFirePageModule)
   },
   {
     path: 'goals',
-    loadChildren: () => import('./goals/goals.module').then( m => m.GoalsPageModule)
+    loadChildren: () => import('./goals-fire/goals-fire.module').then( m => m.GoalsFirePageModule)
+  },
+  {
+    path: 'records',
+    loadChildren: () => import('./records-fire/records-fire.module').then( m => m.RecordsFirePageModule)
+  },
+  {
+    path: 'remainder',
+    loadChildren: () => import('./remainder-fire/remainder-fire.module').then( m => m.RemainderFirePageModule)
   },
 ];
 

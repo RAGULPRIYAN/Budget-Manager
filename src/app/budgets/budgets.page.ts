@@ -8,7 +8,11 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './budgets.page.html',
   styleUrls: ['./budgets.page.scss'],
 })
+
 export class BudgetsPage implements OnInit {
+
+
+
 budgetAmount :any
 expenseName:any
 budgetAmounts:string | undefined
@@ -157,6 +161,18 @@ budgetsId:any
     });
 
   }
+
+  // addAmount(){
+  //   // let payload={
+  //   //       budget:this.budgetAmounts
+  //   //     }
+  //       this.budget.createSetBudget(this.budgetPayload).then(() => {
+  //         this.modalController.dismiss();
+       
+  //       }, err => {
+  //         // this.showToast('There was a some problem in adding your todo :(');  
+  //       });
+  // }
 
   addExpense(){
     let payload={

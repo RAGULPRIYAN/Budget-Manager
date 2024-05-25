@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { FireloginService } from 'src/app/services/firelogin.service';
 import { RegisterService } from 'src/app/services/register.service';
 
 @Component({
@@ -14,7 +15,7 @@ export class LoginPage implements OnInit {
   password:any
   loginForm: FormGroup ;
 
-  constructor( private apiService:RegisterService,private fb: FormBuilder,private route: Router) { 
+  constructor( private apiService:RegisterService,private fb: FormBuilder,private route: Router,private firelogin:FireloginService) { 
     this.loginForm = this.fb.group({
       email: [
         null,
@@ -39,28 +40,49 @@ export class LoginPage implements OnInit {
     return this.loginForm.controls;
   }
 
+  // login() {
+  //   // this.route.navigate(['/records'])
+  //   console.log("insidelogin")
+  //   if (this.loginForm.invalid) {
+  //     return this.loginForm.markAllAsTouched();
+  //   }
+  //   let data = this.loginForm.value;
+  //   console.log(data,'data checks')
+  //   this.apiService.loginUser(data).subscribe({
+  //     next: (res:any) => {
+       
+  //       localStorage.setItem("accessToken",res.token)
+  //       localStorage.setItem("sessionId",res.sessionId)
+  //       localStorage.setItem("userId",res.userid)
+       
+  //       localStorage.setItem("userName",res.name)
+  //           this.route.navigate(['/records'], { queryParams: { id: res.userid } });
+          
+       
+  //     },
+  //     error:(err:HttpErrorResponse) => {
+  //       // this.messageService.add({key: 'myKey2', severity:'error', summary: 'Failure', detail:err['error'].message});
+  //     }
+  //   })
+  // }
+
   login() {
-  
     if (this.loginForm.invalid) {
       return this.loginForm.markAllAsTouched();
     }
-    let data = this.loginForm.value;
-    this.apiService.loginUser(data).subscribe({
-      next: (res:any) => {
-       
-        localStorage.setItem("accessToken",res.token)
-        localStorage.setItem("sessionId",res.sessionId)
-        localStorage.setItem("userId",res.userid)
-       
-        localStorage.setItem("userName",res.name)
-            this.route.navigate(['/records'], { queryParams: { id: res.userid } });
-          
-       
-      },
-      error:(err:HttpErrorResponse) => {
-        // this.messageService.add({key: 'myKey2', severity:'error', summary: 'Failure', detail:err['error'].message});
+    
+
+    const { email, password } = this.loginForm.value;
+    this.firelogin.loginUser(email, password).subscribe(isAuthenticated => {
+      if (isAuthenticated) {
+        console.log('Login successful');
+        this.route.navigate(['/records'])
+        // Redirect or navigate to another page
+      } else {
+        console.log('Login failed: Invalid email or password');
+        // Display error message or handle failed login
       }
-    })
+    });
   }
 
 }

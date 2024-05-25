@@ -1,0 +1,166 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Budget</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="body-div">
+    <ion-card>
+      <div class="card-header">
+        <h2>SetBudget</h2>
+      </div>
+      <ion-card-content>
+        <ion-list>
+          <ion-item>
+            <!-- <ion-select aria-label="Fruit" interface="action-sheet" placeholder="Select Amount" [(ngModel)]="todo.fixAmountId" (ionChange)="setRemainingAmount($event)">
+              <ion-select-option *ngFor="let e of (amount | async)" [value]="e.id">
+                {{ e.setAmount }}
+               
+              </ion-select-option>
+            </ion-select> -->
+            <ion-select class="always-flip" toggleIcon="caret-down-sharp" interface="popover" label="Choose Budget"
+              placeholder="" [(ngModel)]="todo.setAmountId" (ionChange)="setRemainingAmount($event)">
+              <ion-select-option *ngFor="let e of (budgetAmount | async )" [value]="e.id">
+                {{ e.budget }} 
+              </ion-select-option>
+            </ion-select>
+            <ion-icon id="open-custom-dialog" name="add-circle" size="large" slot="end" ></ion-icon>
+            <!-- <ion-button slot="end" fill="clear" >Add</ion-button> -->
+
+          </ion-item>
+        </ion-list>
+        <ion-list>
+          <div class="list-div">
+            <div class="amount-header"> Remaining Amount</div>
+            <div class="amount-number">₹{{remainingAmount || 0}}</div>
+          </div>
+
+        </ion-list>
+      </ion-card-content>
+
+    </ion-card>
+    <ion-card>
+
+      <ion-card-content>
+        <ion-list>
+          <ion-item>
+            <ion-select class="always-flip" toggleIcon="caret-down-sharp" interface="popover" label="Choose Expense"
+              placeholder="" [(ngModel)]="todo.expenseNameId">
+              <ion-select-option *ngFor="let e of (expenseName | async)" [value]="e.id">
+                {{ e.expense }}
+              </ion-select-option>
+
+            </ion-select>
+            <ion-icon id="open-custom-dialog1" name="add-circle" size="large" slot="end" (click)="addNew()"></ion-icon>
+
+          </ion-item>
+
+
+          <!-- <ion-input  label="Choose Expense Name" label-placement="floating" fill="outline"
+        placeholder="Enter text"></ion-input> -->
+        </ion-list>
+        <ion-list>
+          <ion-input label="Enter Expense Amount" label-placement="floating" fill="outline"
+            placeholder="Enter text" [(ngModel)]="todo.expenseAmount"></ion-input>
+        </ion-list>
+
+
+
+        <div class="btn-div" *ngIf="!todo.id">
+          <button class="submit-btn" (click)="createBudget()">Submit</button>
+        </div>
+        <div class="btn-div" *ngIf="todo.id">
+          <button class="submit-btn" (click)="updateExpense()">Update</button>
+          <button class="cancel-btn" (click)="cancelExpense()">Cancel</button>
+        </div>
+
+
+      </ion-card-content>
+
+    </ion-card>
+
+
+  </div>
+
+
+  <ion-modal id="example-modal" #modal trigger="open-custom-dialog">
+    <ng-template>
+      <div class="wrapper">
+        <h1>Add Fix Amount</h1>
+        <div class="amount-input">
+
+          <ion-input  [(ngModel)]="budgetPayload.budget" label="Enter Amount" label-placement="floating" fill="outline"
+            placeholder="Enter text"></ion-input>
+
+        </div>
+        <div class="btn-div">
+          <button class="submit-btn" (click)="addAmount()">Add Amount</button>
+          <button class="cancel-btn" (click)="modal.dismiss()">Cancel</button>
+        </div>
+
+      </div>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal id="example-modal" #modal1 trigger="open-custom-dialog1">
+    <ng-template>
+      <div class="wrapper">
+        <h1>Add Expense</h1>
+        <div class="amount-input">
+
+          <ion-input [(ngModel)]="expensePayload.expense" label="Enter Expense" label-placement="floating" fill="outline"
+            placeholder="Enter text"></ion-input>
+
+        </div>
+        <div class="btn-div">
+          <button class="submit-btn" (click)="addExpense()">Add Expense</button>
+          <button class="cancel-btn" (click)="modal1.dismiss()">Cancel</button>
+        </div>
+
+      </div>
+    </ng-template>
+  </ion-modal>
+
+
+</ion-content>
+<ion-footer >
+  <ion-toolbar>
+    <div class="footer-divs">
+      <div class="records" >
+        <div class="records-div" routerLink="/records">
+          <ion-icon name="list"></ion-icon>
+          <span>Records</span>
+        </div>
+      </div>
+      <div class="analysis">
+        <div class="analysis-div" routerLink="/analysis">
+          <ion-icon name="analytics"></ion-icon>
+        <span>Analytics</span>
+        </div>
+      </div>
+      <div class="budgets" class="active-footer">
+        <div class="budgets-div" routerLink="/budgets">
+          <ion-icon name="cash"></ion-icon>
+          <span>Budgets</span>
+        </div>
+      </div>
+      <div class="goals" >
+        <div class="goals-div" routerLink="/goals">
+          <ion-icon name="trophy"></ion-icon>
+        <span>Goals</span>
+        </div>
+      </div>
+      <div class="remainder">
+        <div class="remainder-div" routerLink="/remainder">
+          <ion-icon name="notifications"></ion-icon>
+          <span>Remainder</span>
+        </div>
+      </div>
+
+
+     
+
+    </div>
+  </ion-toolbar>
+</ion-footer>

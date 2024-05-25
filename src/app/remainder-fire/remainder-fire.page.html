@@ -1,0 +1,112 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Remainder</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="body-div">
+    <div class="card-div">
+      <ion-card button *ngFor="let todo of budgetData">
+        <div class="remainder-div">
+          <div class="remainder-sub-div">
+            <div class="amount-div">₹{{todo?.expenseAmount}}</div>
+            <div *ngFor="let exp of expense">
+              <div *ngIf="todo?.expenseNameId == exp.id">
+                <div class="expense-div">{{exp?.expense}}</div>
+              </div>
+            </div>
+          </div>
+          <div class="date-div">
+            <div class="pay-date">{{ formatTimestamp(todo?.timestamp) }}</div>
+          </div>
+        </div>
+
+       
+        <div *ngIf="todo?.remainderData?.length && todo?.remainderData[0]?.id" class="status">
+          <!-- Loop through remainderData instead of filteredData -->
+          <div *ngFor="let remainder of todo.remainderData">
+            <div *ngFor="let filter of (filteredData | async)">
+              <div *ngIf="remainder.filterId === filter.id">
+                <div class="data-icon">
+                  <span class="remainder-data">
+                    <ion-icon name="repeat"></ion-icon>
+                    Repeats {{filter.filterData}}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="edit-drop">
+            <ion-select [(ngModel)]="todo.remainderData[0].filterId" class="btn-sty" toggleIcon="caret-down-sharp" interface="popover" label="Edit"
+              placeholder="" (ionChange)="updateRemainder($event, todo)">
+              <ion-select-option *ngFor="let e of (filteredData | async)" [value]="e.id">
+                {{ e.filterData }}
+              </ion-select-option>
+            </ion-select>
+          </div>
+          
+          <div class="delete-rem">
+            <ion-button fill="clear" (click)="deleteRemainder(todo.remainderData[0]?.id)">Delete</ion-button>
+          </div>
+        </div>
+        
+        
+        <div *ngIf="!todo?.remainderData?.length || !todo?.remainderData[0]?.id" class="set-remain">
+          <div class="remain-btn">
+            <div class="submit-btn">
+              <ion-select class="btn-sty"  interface="popover" placeholder="Set Remainder"
+                (ionChange)="createRemainder($event, todo)">
+                <ion-select-option *ngFor="let e of (filteredData | async)" [value]="e.id">
+                  {{ e.filterData }}
+                </ion-select-option>
+              </ion-select>
+            </div>
+            <div class="icon-div">
+              <ion-icon name="notifications"></ion-icon>
+            </div>
+          </div>
+        </div>
+        
+      </ion-card>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <div class="footer-divs">
+      <div class="records">
+        <div class="records-div" routerLink="/records">
+          <ion-icon name="list"></ion-icon>
+          <span>Records</span>
+        </div>
+      </div>
+      <div class="analysis">
+        <div class="analysis-div" routerLink="/analysis">
+          <ion-icon name="analytics"></ion-icon>
+          <span>Analytics</span>
+        </div>
+      </div>
+      <div class="budgets">
+        <div class="budgets-div" routerLink="/budgets">
+          <ion-icon name="cash"></ion-icon>
+          <span>Budgets</span>
+        </div>
+      </div>
+      <div class="goals">
+        <div class="goals-div" routerLink="/goals">
+          <ion-icon name="trophy"></ion-icon>
+          <span>Goals</span>
+        </div>
+      </div>
+      <div class="remainder active-footer">
+        <div class="remainder-div" routerLink="/remainder">
+          <ion-icon name="notifications"></ion-icon>
+          <span>Remainder</span>
+        </div>
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-footer>

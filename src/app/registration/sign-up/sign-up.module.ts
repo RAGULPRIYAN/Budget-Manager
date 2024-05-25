@@ -10,6 +10,8 @@ import { SignUpPage } from './sign-up.page';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RegisterService } from 'src/app/services/register.service';
 import { HttpClientModule } from '@angular/common/http';
+import { FireloginService } from 'src/app/services/firelogin.service';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 
 @NgModule({
   imports: [
@@ -19,6 +21,6 @@ import { HttpClientModule } from '@angular/common/http';
     SignUpPageRoutingModule,ReactiveFormsModule,HttpClientModule
   ],
   declarations: [SignUpPage],
-  providers:[RegisterService,HttpClientModule]
+  providers:[RegisterService,HttpClientModule,FireloginService,AngularFirestoreModule]
 })
 export class SignUpPageModule {}

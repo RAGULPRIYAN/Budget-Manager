@@ -1,0 +1,62 @@
+.body-div{
+    .filters{
+        display: flex;
+        justify-content: center;
+       gap: 5px;
+    .clear-div{
+        display: flex;
+        align-items: center;
+        color: blue;
+        cursor: pointer;
+        ion-icon{
+            font-size: 30px;
+            color: #009688;
+        }
+    }
+    }
+   .figure{
+    display: flex;
+    justify-content: center;
+   }
+   .data-found{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 600;
+}
+   
+   .chart-text{
+    display: flex;
+    justify-content: center;
+    .color-marking{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: start;
+        gap: 15px;
+        
+        span{
+            height: 22px;    
+            display: flex;
+            // justify-content: ;
+            gap: 11px;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 400;
+            // line-height: 16.41px;
+            // text-align: left;
+            color: #333333;
+            .color-bar{
+                width: 7.22px;
+                height: 100%;
+            }
+        }
+    }
+    
+  
+   } 
+   
+        
+    
+}

@@ -1,0 +1,100 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Analysis</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="body-div">
+    <div class="filters">
+     
+      <div class="filter-date">
+        <ion-item>
+          <!-- <ion-select  class="always-flip" toggleIcon="caret-down-sharp" interface="popover" label="Filter Date"
+                placeholder="" (ionChange)="getFilterWiseData($event)" [(ngModel)]="dateId" >
+                <ion-select-option *ngFor="let e of ( filteredData | async)" [value]="e.filterData">
+                  {{ e.filterData }} 
+                </ion-select-option>
+              </ion-select> -->
+              <ion-select   interface="popover" placeholder="Filter Date"
+                (ionChange)="getFilterWiseData($event)" [(ngModel)]="dateId" >
+                <ion-select-option *ngFor="let e of ( filteredData | async)" [value]="e.filterData">
+                  {{ e.filterData }} 
+                </ion-select-option>
+              </ion-select>
+
+         
+        </ion-item>
+      </div>
+      <div class="clear-div">
+        <!-- <span >Clear</span> -->
+        <ion-icon name="refresh-circle" (click)="removeFilter()"></ion-icon>
+
+      </div>
+    
+
+     
+    </div>
+    <div class="figure">
+      <figure id="processBar"></figure>
+  </div>
+  <div class="data-found" *ngIf="noDataVisible">
+    No data 
+  </div>
+   
+<div class="chart-text">
+  <div class="color-marking">
+    <div *ngFor="let data of chartData; let i = index">
+        <span *ngIf="data[1] !== null && data[1] !== 0  && data[1] !== '0'">
+            <span class="color-bar" [ngStyle]="{'background-color': chartColor[i]}"></span>{{data[0]}}
+        </span>
+    </div>
+</div>
+</div>
+
+
+    
+    
+  </div>
+ 
+</ion-content>
+<ion-footer >
+  <ion-toolbar>
+    <div class="footer-divs">
+      <div class="records" >
+        <div class="records-div" routerLink="/records">
+          <ion-icon name="list"></ion-icon>
+          <span>Records</span>
+        </div>
+      </div>
+      <div class="analysis" class="active-footer">
+        <div class="analysis-div" routerLink="/analysis">
+          <ion-icon name="analytics"></ion-icon>
+        <span>Analytics</span>
+        </div>
+      </div>
+      <div class="budgets">
+        <div class="budgets-div" routerLink="/budgets">
+          <ion-icon name="cash"></ion-icon>
+          <span>Budgets</span>
+        </div>
+      </div>
+      <div class="goals" >
+        <div class="goals-div" routerLink="/goals">
+          <ion-icon name="trophy"></ion-icon>
+        <span>Goals</span>
+        </div>
+      </div>
+      <div class="remainder">
+        <div class="remainder-div" routerLink="/remainder">
+          <ion-icon name="notifications"></ion-icon>
+          <span>Remainder</span>
+        </div>
+      </div>
+
+
+     
+
+    </div>
+  </ion-toolbar>
+</ion-footer>

@@ -10,10 +10,12 @@ export class RegisterService {
 
 
   addUser(data:any){
+  
     return this.http.post(`${environment.url}/user/signUp`,data);
   }
 
   loginUser(data:any){
+    console.log(data,'login service')
     return this.http.post(`${environment.url}/user/login`,data);
   }
 
