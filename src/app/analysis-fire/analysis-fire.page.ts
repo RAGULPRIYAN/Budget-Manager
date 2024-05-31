@@ -79,7 +79,7 @@ export class AnalysisFirePage implements OnInit {
         this.chartData = res.topFive.map((process: any) => [process.expense, process.itemCount, process.id]);
         this.chartData.push(["Others", res.othersTotalCount, 0]);
         
-        this.chartColor = this.generateChartColors(res.topFive);
+        this.chartColor = this.generateChartColors(this.chartData);
         const processOrder = res.topFive.map((d: any) => d.expense);
 
         const secondColors = d3.scaleOrdinal().domain(processOrder).range(this.chartColor);
@@ -131,7 +131,7 @@ export class AnalysisFirePage implements OnInit {
         this.chartData = res.topFive.map((process: any) => [process.expense, process.itemCount, process.id]);
         this.chartData.push(["Others", res.othersTotalCount, 0]);
 
-        this.chartColor = this.generateChartColors(res.topFive);
+        this.chartColor = this.generateChartColors(this.chartData);
         const processOrder = res.topFive.map((d: any) => d.expense);
 
         const secondColors = d3.scaleOrdinal().domain(processOrder).range(this.chartColor);

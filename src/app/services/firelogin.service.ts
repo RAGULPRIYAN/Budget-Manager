@@ -33,11 +33,15 @@ export class FireloginService {
     );
   }
 
-  createUser(data:any){
-    data['userId']=localStorage.getItem("userId");
-    return this.userCollection.add(data);  
+  createUser(data: any) {
+    return this.db.collection('user', ref => ref.where('email', '==', data.email)).get().toPromise().then((querySnapshot) => {
+      if (!querySnapshot?.empty) {
+        throw new Error('Email already exists');
+      }
+      data['userId'] = localStorage.getItem("userId");
+      return this.userCollection.add(data);
+    });
   }
-
   loginUser(email: string, password: string): Observable<boolean> {
     console.log(email, password, 'checks');
     return this.userCollection.valueChanges({ idField: 'id' }).pipe(

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BudgetfireService, budgets, expense, set_budget_amount } from '../services/budgetfire.service';
 import { ModalController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 
 
 @Component({
@@ -45,7 +46,7 @@ export class BudgetsFirePage implements OnInit {
   updateVisible:boolean=false
   budgetsId:any
   
-    constructor(private activeRoute: ActivatedRoute,private budget:BudgetfireService,private modalController: ModalController,private route: Router) { }
+    constructor(private toastController: ToastController,private activeRoute: ActivatedRoute,private budget:BudgetfireService,private modalController: ModalController,private route: Router) { }
   
     ngOnInit() {
       
@@ -58,6 +59,18 @@ export class BudgetsFirePage implements OnInit {
      
     
     }
+
+
+    async presentToast(message: string, color: string) {
+      const toast = await this.toastController.create({
+        message,
+        duration: 2000,
+        color,
+        position: 'top',
+      });
+      toast.present();
+    }
+  
   
     ionViewWillEnter(){
       this.expenseAmount = ''
@@ -171,44 +184,118 @@ export class BudgetsFirePage implements OnInit {
         
       // });
 
-      this.budget.createBudgets(this.todo).then(() => {
-        this.modalController.dismiss();
-        this.todo.expenseAmount = ''
-        this.todo.expenseNameId = ''
-        this.todo.setAmountId = ''
-      
-        this.route.navigateByUrl('/records');
-      }, err => {
-        // this.showToast('There was a some problem in adding your todo :(');  
-      });
-  
-    }
-  
-  
-    addAmount(){
-      // let payload={
-      //       budget:this.budgetAmounts
-      //     }
+       // Check if the expenseAmount input contains only text
+       const numbersOnlyRegex = /^[0-9]+$/;
+  if (!numbersOnlyRegex.test(this.todo.expenseAmount)) {
+    // Show a toast notification indicating invalid input
+    this.presentToast('Only Number is allowed for Expense Amount.', 'danger');
+    // console.error('Invalid input. Only text is allowed for Expense Amount.');
+    return;
+  }
 
-          this.budget.createSetBudget(this.budgetPayload).then(() => {
-            this.modalController.dismiss();
-         
-         this. getBudgetAmount()
-          }, err => {
-            // this.showToast('There was a some problem in adding your todo :(');  
-          });
+    // Check if any of the fields are empty
+    if (!this.todo.expenseAmount || !this.todo.expenseNameId || !this.todo.setAmountId) {
+      // Show a toast notification indicating missing fields
+      this.presentToast('All fields are required.', 'danger');
+
+      // console.error('All fields are required.');
+      return;
+    }
+
+
+  this.budget.createBudgets(this.todo).then(() => {
+    this.modalController.dismiss();
+    this.todo.expenseAmount = ''
+    this.todo.expenseNameId = ''
+    this.todo.setAmountId = ''
+    this.presentToast('Budget created successfully', 'success');
+    this.route.navigateByUrl('/records');
+
+  }, err => {
+    // this.showToast('There was a some problem in adding your todo :(');  
+  });
+
+
+  
     }
   
-    addExpense(){
-     
-      this.budget.createExpense(this.expensePayload).then(() => {
+  
+    // addAmount(){
+    //   // let payload={
+    //   //       budget:this.budgetAmounts
+    //   //     }
+
+    //       this.budget.createSetBudget(this.budgetPayload).then(() => {
+    //         this.modalController.dismiss();
+         
+    //      this. getBudgetAmount()
+    //       }, err => {
+    //         // this.showToast('There was a some problem in adding your todo :(');  
+    //       });
+    // }
+
+    addAmount() {
+      console.log(this.budgetPayload.budget,'this.budgetPayload.budget')
+      // Check if the budget input contains only numbers
+      const numbersOnlyRegex = /^[0-9]+$/;
+      if (!numbersOnlyRegex.test(this.budgetPayload.budget)) {
+        console.log('inside if')
+        this.presentToast('Only numbers are allowed.', 'danger');
+        // console.error('Invalid input. Only numbers are allowed.');
+        // Show a toast notification or some error message indicating invalid input
+        // this.showToast('Invalid input. Only numbers are allowed.');
+        return;
+      }
+    
+      this.budget.createSetBudget(this.budgetPayload).then((res) => {
+        console.log(res,'res checsk')
+        // this.presentToast('Amount created successfully', 'success');
         this.modalController.dismiss();
-        this.getExpenseName()
-     
+         this.getBudgetAmount()
+        this.todo.setAmountId = res.id
+       
+        this.setRemainingAmountAfterCreate(res.id) 
       }, err => {
-        // this.showToast('There was a some problem in adding your todo :(');  
+        // Handle error (e.g., show a toast notification)
+        // this.showToast('There was a problem adding your amount.');
+        console.error('There was a problem adding your amount', err);
       });
     }
+    
+  
+    // addExpense(){
+     
+    //   this.budget.createExpense(this.expensePayload).then(() => {
+    //     this.modalController.dismiss();
+    //     this.getExpenseName()
+     
+    //   }, err => {
+    //     // this.showToast('There was a some problem in adding your todo :(');  
+    //   });
+    // }
+
+    addExpense() {
+      // Check if the expense input contains only text
+      const textOnlyRegex = /^[a-zA-Z\s]+$/;
+      if (!textOnlyRegex.test(this.expensePayload.expense)) {
+        // Show a toast notification or some error message indicating invalid input
+        // console.error('Invalid input. Only text is allowed.');
+        this.presentToast('Invalid input. Only text are allowed.', 'danger');
+
+        return;
+      }
+    
+      this.budget.createExpense(this.expensePayload).then((res) => {
+        this.modalController.dismiss();
+        this.todo.expenseNameId = res.id
+        this.getExpenseName();
+      }, err => {
+        // Handle error (e.g., show a toast notification)
+        console.error('There was a problem adding your expense', err);
+      });
+    }
+
+    
   
   
 
@@ -231,6 +318,27 @@ setRemainingAmount(event: any) {
   });
 
 }  
+
+
+
+setRemainingAmountAfterCreate(event: any) {
+  const selectedValue = event;
+  // Fetch fixAmount
+  this.budget.getSetAmountId(selectedValue).subscribe(todo => {
+    const fixAmount:any = todo?.budget;
+    // Fetch totalExpenseAmount
+    this.budget.getExpenseByFixAmountId(selectedValue).subscribe((expenses: budgets[]) => {
+      const todos = expenses;
+      const totalExpenseAmount = todos.reduce((total: number, e: { expenseAmount: string; }) => total + parseFloat(e.expenseAmount), 0);
+      console.log(totalExpenseAmount, 'total expense amount');
+      // Calculate remainingAmount
+    this.remainingAmount = parseFloat(fixAmount) - totalExpenseAmount;
+    console.log(this.remainingAmount,'remaining amount')
+
+    });
+  });
+
+} 
     addNew(){}
   }
   

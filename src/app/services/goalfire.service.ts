@@ -40,10 +40,30 @@ export class GoalfireService {
     return this.goalCollection.add(data);  
   }
   
-  getGoal(){
-    // return this.goal;
-    let  userId:any=localStorage.getItem("userId");
-    const goalObservable = from(this.goalCollection.ref.where('userId', '==', userId).get()).pipe(
+  // getGoal(){
+  //   // return this.goal;
+  //   let  userId:any=localStorage.getItem("userId");
+  //   const goalObservable = from(this.goalCollection.ref.where('userId', '==', userId).get()).pipe(
+  //     map(querySnapshot => {
+  //       const goals: goal[] = [];
+  //       querySnapshot.forEach((doc: QueryDocumentSnapshot<goal>) => {
+  //         const goalData = doc.data() as goal;
+  //         goalData.id = doc.id;
+  //         goals.push(goalData);
+  //       });
+  //       return goals;
+  //     })
+  //   );
+  //   return goalObservable
+  // }
+
+  getGoal(): Observable<goal[]> {
+    const userId: any = localStorage.getItem("userId");
+    const query = this.goalCollection.ref
+      .where('userId', '==', userId)
+      .orderBy('timestamp', 'desc');
+
+    const goalObservable = from(query.get()).pipe(
       map(querySnapshot => {
         const goals: goal[] = [];
         querySnapshot.forEach((doc: QueryDocumentSnapshot<goal>) => {
@@ -54,7 +74,8 @@ export class GoalfireService {
         return goals;
       })
     );
-    return goalObservable
+
+    return goalObservable;
   }
   
   getGoalId(id: string) {  

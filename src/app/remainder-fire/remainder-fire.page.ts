@@ -160,7 +160,7 @@ getAllRemainder(){
   calculateReminderTimes(interval: string, payDate: Date): Date[] {
     const reminderTimes: Date[] = [];
     const reminderDate = new Date(payDate);
-    reminderDate.setHours(11, 39, 0, 0); // Set time to 4:00 PM
+    reminderDate.setHours(17, 26, 0, 0); // Set time to 4:00 PM
 
     if (interval === 'Daily') {
       // For daily, schedule reminder at 4:00 PM every day
@@ -187,6 +187,20 @@ getAllRemainder(){
     let  userId:any=localStorage.getItem("userId");
     console.log(todo.remainderData[0].id,"todo checksmm")
     const selectedValue = event.detail.value;
+    let selectedOption: any;
+    console.log(selectedValue, "selectedValue in console");
+    // Subscribe to filteredData to get the actual data
+    this.filteredData.subscribe((data: any[]) => {
+      selectedOption = data.find((e: { id: any; }) => e.id === selectedValue);
+      console.log(selectedOption, 'select option');
+
+      if (selectedOption) {
+        const payDate = this.convertToDate(todo.timestamp);
+        // const payDate = new Date(todo.targetDate);
+        const reminderTimes = this.calculateReminderTimes(selectedOption.filterData, payDate);
+        this.scheduleReminders(todo, reminderTimes);
+      }
+    });
     console.log(selectedValue,'value checks')
     let payload = {
       filterId: event.detail.value,

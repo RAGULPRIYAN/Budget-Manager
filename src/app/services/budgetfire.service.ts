@@ -2,21 +2,20 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFirestoreCollection,AngularFirestore,DocumentReference,QueryDocumentSnapshot} from '@angular/fire/compat/firestore'; 
 import {combineLatest, from, Observable, of } from 'rxjs';
-import { catchError, map, switchMap, take, tap } from 'rxjs/operators'; 
+import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
+
 export interface set_budget_amount {  
   id?:string;
   budget: string; 
   timestamp :Date;
   userId:string
 } 
-
 export interface expense {  
   id?:string;
   expense: string; 
   timestamp :Date;
   userId:string
 } 
-
 
 export interface budgets {  
   id?:string;
@@ -48,6 +47,19 @@ export class BudgetfireService {
   private filterCollection: AngularFirestoreCollection<filterData> ; 
 
   constructor(private http: HttpClient,private db: AngularFirestore) {
+//     this.setBudgetCollection = this.db.collection<set_budget_amount>('set_budget_amount', ref =>
+//     ref.orderBy('timestamp', 'desc') // Order by timestamp in descending order (latest first)
+//   );
+//   this.expenseCollection = this.db.collection<expense>('expenses', ref =>
+//   ref.orderBy('timestamp', 'desc') // Order by timestamp in descending order (latest first)
+// );
+// this.budgetsCollection = this.db.collection<budgets>('budgets', ref =>
+// ref.orderBy('timestamp', 'desc') // Order by timestamp in descending order (latest first)
+// );
+// this.filterCollection = this.db.collection<filterData>('filters', ref =>
+// ref.orderBy('timestamp', 'desc') // Order by timestamp in descending order (latest first)
+// );
+
     this.setBudgetCollection = this.db.collection<set_budget_amount>('set_budget_amount');
     this.expenseCollection = this.db.collection<expense>('expenses');
     this.budgetsCollection = this.db.collection<budgets>('budgets');
@@ -95,15 +107,28 @@ export class BudgetfireService {
 
 
 
-createSetBudget(data:any){
-  data['userId']=localStorage.getItem("userId");
-  return this.setBudgetCollection.add(data);  
+// createSetBudget(data:any){
+//   data['userId']=localStorage.getItem("userId");
+//   return this.setBudgetCollection.add(data);  
+// }
+
+createSetBudget(data: any) {
+  data['userId'] = localStorage.getItem("userId");
+  return this.setBudgetCollection.add(data).then((docRef) => {
+    return docRef.get().then((doc) => {
+      return { id: doc.id, ...doc.data() };
+    });
+  });
 }
 
-getSetAmount(){
-  // return this.amount;
-  let  userId:any=localStorage.getItem("userId");
-  const setBudgetObservable = from(this.setBudgetCollection.ref.where('userId', '==', userId).get()).pipe(
+
+getSetAmount(): Observable<set_budget_amount[]> {
+  const userId: any = localStorage.getItem("userId");
+  const query = this.setBudgetCollection.ref
+    .where('userId', '==', userId)
+    .orderBy('timestamp', 'desc');
+
+  const setBudgetObservable = from(query.get()).pipe(
     map(querySnapshot => {
       const budgets: set_budget_amount[] = [];
       querySnapshot.forEach((doc: QueryDocumentSnapshot<set_budget_amount>) => {
@@ -114,6 +139,7 @@ getSetAmount(){
       return budgets;
     })
   );
+
   return setBudgetObservable;
 }
 
@@ -132,15 +158,28 @@ getSetAmountId(id: string) {
   );  
 }
 
-createExpense(data:any){
-  data['userId']=localStorage.getItem("userId");
-  return this.expenseCollection.add(data);  
+// createExpense(data:any){
+//   data['userId']=localStorage.getItem("userId");
+//   return this.expenseCollection.add(data);  
+// }
+
+
+createExpense(data: any) {
+  data['userId'] = localStorage.getItem("userId");
+  return this.expenseCollection.add(data).then((docRef) => {
+    return docRef.get().then((doc) => {
+      return { id: doc.id, ...doc.data() };
+    });
+  });
 }
 
-getExpense(){
-  // return this.expense;
-  let  userId:any=localStorage.getItem("userId");
-  const expenseObservable = from(this.expenseCollection.ref.where('userId', '==', userId).get()).pipe(
+getExpense(): Observable<expense[]> {
+  const userId: any = localStorage.getItem("userId");
+  const query = this.expenseCollection.ref
+    .where('userId', '==', userId)
+    .orderBy('timestamp', 'desc');
+
+  const expenseObservable = from(query.get()).pipe(
     map(querySnapshot => {
       const expenses: expense[] = [];
       querySnapshot.forEach((doc: QueryDocumentSnapshot<expense>) => {
@@ -150,9 +189,9 @@ getExpense(){
       });
       return expenses;
     })
-    
   );
-  return expenseObservable
+
+  return expenseObservable;
 }
 
 
@@ -162,10 +201,13 @@ createBudgets(data:any){
 }
 
 
-getBudgets(){
-  // return this.budgets;
-  let  userId:any=localStorage.getItem("userId");
-  const budgetsObservable = from(this.budgetsCollection.ref.where('userId', '==', userId).get()).pipe(
+getBudgets(): Observable<budgets[]> {
+  const userId: any = localStorage.getItem("userId");
+  const query = this.budgetsCollection.ref
+    .where('userId', '==', userId)
+    .orderBy('timestamp', 'desc');
+
+  const budgetsObservable = from(query.get()).pipe(
     map(querySnapshot => {
       const budgets: budgets[] = [];
       querySnapshot.forEach((doc: QueryDocumentSnapshot<budgets>) => {
@@ -176,7 +218,8 @@ getBudgets(){
       return budgets;
     })
   );
-  return budgetsObservable
+
+  return budgetsObservable;
 }
 
 
@@ -292,38 +335,25 @@ getBudgetsByDateRange(startDate: Date, endDate: Date): Observable<budgets[]> {
 }
 
 
-
-
 getExpenseCount(): Observable<any> {
-  let  userId:any=localStorage.getItem("userId");
+  const userId = localStorage.getItem("userId");
   return this.db.collection<budgets>('budgets', ref => ref.where('userId', '==', userId)).snapshotChanges().pipe(
     switchMap(actions => {
-      const expenseIds: string[] = actions.map(a => a.payload.doc.data().expenseNameId);
-      const uniqueExpenseIds = Array.from(new Set(expenseIds));
-
-      if (uniqueExpenseIds.length === 0) {
-        return of({ topFive: [], others: [], othersTotalCount: 0, totalCount: 0 });
-      }
-
-      const expenseObservables = uniqueExpenseIds.map(expenseId => {
-        return this.db.collection<expense>('expenses').doc(expenseId).valueChanges().pipe(
-          map(expenseData => ({ id: expenseId, expense: expenseData?.expense })) // Use optional chaining
+      const expenseObservables = actions.map(a => {
+        const data = a.payload.doc.data() as budgets;
+        return this.db.collection<expense>('expenses').doc(data.expenseNameId).valueChanges().pipe(
+          map(expenseData => ({ id: data.expenseNameId, expense: expenseData?.expense })) // Use optional chaining
         );
       });
 
       return combineLatest(expenseObservables).pipe(
         map(expenseDataArray => {
           const expenseCounts: { [key: string]: { expense: string, itemCount: number } } = {};
-          actions.forEach(a => {
-            const data = a.payload.doc.data() as budgets;
-            const expenseId = data.expenseNameId;
-            if (expenseCounts[expenseId]) {
-              expenseCounts[expenseId].itemCount++;
+          expenseDataArray.forEach((expenseData:any) => {
+            if (expenseCounts[expenseData.expense]) {
+              expenseCounts[expenseData.expense].itemCount++;
             } else {
-              const expenseData = expenseDataArray.find(exp => exp.id === expenseId);
-              if (expenseData && expenseData.expense) { // Check if expenseData and expense are defined
-                expenseCounts[expenseId] = { expense: expenseData.expense, itemCount: 1 };
-              }
+              expenseCounts[expenseData.expense] = { expense: expenseData.expense, itemCount: 1 };
             }
           });
 
@@ -363,15 +393,11 @@ getExpenseCountByDateRange(startDate: Date, endDate: Date): Observable<any> {
       return combineLatest(expenseObservables).pipe(
         map(expenseDataArray => {
           const expenseCounts: { [key: string]: { expense: string, itemCount: number } } = {};
-          budgets.forEach(budget => {
-            const expenseId = budget.expenseNameId;
-            if (expenseCounts[expenseId]) {
-              expenseCounts[expenseId].itemCount++;
+          expenseDataArray.forEach((expenseData:any) => {
+            if (expenseCounts[expenseData.expense]) {
+              expenseCounts[expenseData.expense].itemCount++;
             } else {
-              const expenseData = expenseDataArray.find(exp => exp.id === expenseId);
-              if (expenseData) {
-                expenseCounts[expenseId] = { expense: expenseData.expense, itemCount: 1 };
-              }
+              expenseCounts[expenseData.expense] = { expense: expenseData.expense, itemCount: 1 };
             }
           });
 

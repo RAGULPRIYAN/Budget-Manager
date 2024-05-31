@@ -4,6 +4,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { FireloginService } from 'src/app/services/firelogin.service';
 import { RegisterService } from 'src/app/services/register.service';
+import { ToastController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-login',
@@ -15,7 +17,7 @@ export class LoginPage implements OnInit {
   password:any
   loginForm: FormGroup ;
 
-  constructor( private apiService:RegisterService,private fb: FormBuilder,private route: Router,private firelogin:FireloginService) { 
+  constructor(private toastController: ToastController, private apiService:RegisterService,private fb: FormBuilder,private route: Router,private firelogin:FireloginService) { 
     this.loginForm = this.fb.group({
       email: [
         null,
@@ -35,6 +37,17 @@ export class LoginPage implements OnInit {
 
 
   }
+
+  async presentToast(message: string, color: string) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+      color,
+      position: 'top',
+    });
+    toast.present();
+  }
+
 
   get form() {
     return this.loginForm.controls;
@@ -76,10 +89,12 @@ export class LoginPage implements OnInit {
     this.firelogin.loginUser(email, password).subscribe(isAuthenticated => {
       if (isAuthenticated) {
         console.log('Login successful');
+        this.presentToast('Login successful', 'success');
         this.route.navigate(['/records'])
         // Redirect or navigate to another page
       } else {
-        console.log('Login failed: Invalid email or password');
+        this.presentToast('Invalid email or password', 'danger');
+        // console.log('Login failed: Invalid email or password');
         // Display error message or handle failed login
       }
     });

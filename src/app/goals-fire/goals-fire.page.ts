@@ -4,6 +4,7 @@ import { GoalService } from '../services/goal.service';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { GoalfireService, goal } from '../services/goalfire.service';
+import { ToastController } from '@ionic/angular';
 
 
 @Component({
@@ -47,10 +48,26 @@ export class GoalsFirePage implements OnInit {
   updateSavedAmount:string=''
   updateTargetDate:Date | undefined
 
-  constructor(private datePipe: DatePipe,private goal:GoalfireService ,private modalController: ModalController,private route: Router) { }
+  constructor(private toastController: ToastController,private datePipe: DatePipe,private goal:GoalfireService ,private modalController: ModalController,private route: Router) { }
 
   ngOnInit() {
     this.getGoal()
+  }
+  
+
+  ionViewWillEnter(){
+    this.getGoal()
+  }
+
+
+  async presentToast(message: string, color: string) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+      color,
+      position: 'top',
+    });
+    toast.present();
   }
 
   formatTargetDate(targetDate: string): string {
@@ -99,6 +116,9 @@ export class GoalsFirePage implements OnInit {
 
 
   deleteGoal(id:any){
+    this.goal.deleteGoals(id)
+    this.getGoal()
+
 // this.goal.deleteGoal(id).subscribe((res:any)=>{
 //   console.log(res,'res checks')
 //   this.getGoal()
@@ -106,39 +126,82 @@ export class GoalsFirePage implements OnInit {
   }
 
  
-  saveGoal(){
-// let payload={
-//   goalName:this.goalName,
-//   goalAmount:this.goalAmount,
-//   savedAmount:this.savedAmount,
-//   targetDate:this.targetDate
-// }
-// console.log(payload,'payload checks')
-// this.goal.addGoal(payload).subscribe({  
-//   next: (res: any) => { 
-//     this.getGoal()
-//     this.modalController.dismiss();
-//     this.goalName = ''
-//     this.goalAmount=''
-//     this.savedAmount=''
-//   },
-//   error: (err) => {
-//     console.log("error", err);  
-//   },    
+//   saveGoal(){
+// // let payload={
+// //   goalName:this.goalName,
+// //   goalAmount:this.goalAmount,
+// //   savedAmount:this.savedAmount,
+// //   targetDate:this.targetDate
+// // }
+// // console.log(payload,'payload checks')
+// // this.goal.addGoal(payload).subscribe({  
+// //   next: (res: any) => { 
+// //     this.getGoal()
+// //     this.modalController.dismiss();
+// //     this.goalName = ''
+// //     this.goalAmount=''
+// //     this.savedAmount=''
+// //   },
+// //   error: (err) => {
+// //     console.log("error", err);  
+// //   },    
   
-// });
-this.goal.createGoal(this.todo).then(() => {
-  this.getGoal()
-  this.modalController.dismiss();
-  this.todo.goalName = ''
-  this.todo.goalAmount = ''
-  this.todo.savedAmount = ''
+// // });
+// this.goal.createGoal(this.todo).then(() => {
+//   this.getGoal()
+//   this.modalController.dismiss();
+//   this.todo.goalName = ''
+//   this.todo.goalAmount = ''
+//   this.todo.savedAmount = ''
  
   
-}, err => {
-  // this.showToast('There was a some problem in adding your todo :(');  
-});
+// }, err => {
+//   // this.showToast('There was a some problem in adding your todo :(');  
+// });
+//   }
+
+saveGoal() {
+  // Check if goalName is not empty and contains only text characters
+  if (!this.todo.goalName || !/^[a-zA-Z ]+$/.test(this.todo.goalName.trim())) {
+   console.log(' message or handle invalid input')
+   this.presentToast('Only text is allowed for Goal Name.', 'danger');
+    return; // Exit function if validation fails
   }
+
+  // Check if goalAmount and savedAmount are numeric
+  if (isNaN(parseFloat(this.todo.goalAmount)) || isNaN(parseFloat(this.todo.savedAmount))) {
+    console.log(' message or handle invalid input')
+    this.presentToast('Only Numberic is allowed for Amount.', 'danger');
+    return; // Exit function if validation fails
+  }
+
+   // Check if goalAmount is higher than savedAmount
+   if (parseFloat(this.todo.goalAmount) <= parseFloat(this.todo.savedAmount)) {
+    console.log('goal Amount is higher than savedAmount')
+    this.presentToast('Goal Amount is higher than savedAmount', 'danger');
+    return; // Exit function if validation fails
+  }
+
+  // Check if all fields are filled
+  if (!this.todo.goalName || !this.todo.goalAmount || !this.todo.savedAmount || !this.todo.targetDate) {
+    console.log(' message or handle incomplete input')
+    this.presentToast('Incomplete input', 'danger');
+    return; // Exit function if validation fails
+  }
+
+  // All validations passed, proceed to create the goal
+  this.goal.createGoal(this.todo).then(() => {
+    this.getGoal();
+    this.modalController.dismiss();
+    this.presentToast('Goal Created Successfully', 'success');
+    this.todo.goalName = '';
+    this.todo.goalAmount = '';
+    this.todo.savedAmount = '';
+  }, err => {
+    // Handle error if goal creation fails
+  });
+}
+
 
   updateGoal(){
     // let payload={
@@ -162,8 +225,38 @@ this.goal.createGoal(this.todo).then(() => {
     //   },    
       
     // });
+    // Check if goalName is not empty and contains only text characters
+  if (!this.updateTodo.goalName || !/^[a-zA-Z ]+$/.test(this.updateTodo.goalName.trim())) {
+    console.log(' message or handle invalid input')
+    this.presentToast('Only text is allowed for Goal Name.', 'danger');
+     return; // Exit function if validation fails
+   }
+ 
+   // Check if goalAmount and savedAmount are numeric
+   if (isNaN(parseFloat(this.updateTodo.goalAmount)) || isNaN(parseFloat(this.updateTodo.savedAmount))) {
+     console.log(' message or handle invalid input')
+     this.presentToast('Only Number is allowed for Amount.', 'danger');
+     return; // Exit function if validation fails
+   }
+
+
+   // Check if goalAmount is higher than savedAmount
+   if (parseFloat(this.updateTodo.goalAmount) <= parseFloat(this.updateTodo.savedAmount)) {
+    this.presentToast('Goal Amount is higher than savedAmount', 'danger');
+    // console.log('goal Amount is higher than savedAmount')
+    return; // Exit function if validation fails
+  }
+ 
+   // Check if all fields are filled
+   if (!this.updateTodo.goalName || !this.updateTodo.goalAmount || !this.updateTodo.savedAmount || !this.updateTodo.targetDate) {
+    this.presentToast('Incomplete input', 'danger');
+    //  console.log(' message or handle incomplete input')
+     return; // Exit function if validation fails
+   }
     this.goal.updateGoal(this.updateTodo).then(()=>{
       this.modalController.dismiss();
+      this.getGoal();
+      this.presentToast('Goal Updated Successfully', 'success');
       this.updateTodo.goalName = ''
       this.updateTodo.goalAmount = ''
       this.updateTodo.savedAmount = ''

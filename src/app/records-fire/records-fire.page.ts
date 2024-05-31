@@ -40,6 +40,7 @@ export class RecordsFirePage implements OnInit {
       this.getBudgetAmount()
       this.getExpenseName()
       this. getFilterData()
+      this.getCardData()
      
     }
   
@@ -56,7 +57,8 @@ export class RecordsFirePage implements OnInit {
       // else{
       //   this.getUserDetails(this.userId)
       // }
-     
+      this.getBudgetAmount()
+      this.getExpenseName()
       this.getCardData()
     }
   
